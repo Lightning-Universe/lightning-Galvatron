@@ -5,7 +5,6 @@ description-file = "README.md"
 [build-system]
 requires = [
     "setuptools",
-    "packaging",
     "wheel",
 ]
 
