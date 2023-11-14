@@ -10,20 +10,20 @@ except:
     flash_attn = None
 
 
-@pytest.mark.skipif(torch.cuda.device_count() < 4, reason="This test needs at least 4 GPUs.")
+@pytest.mark.skipif(torch.cuda.device_count() < 2, reason="This test needs at least 2 GPUs.")
 def test_chatglm_with_json_config(tmpdir):
     trainer_options = {
         "default_root_dir": str(tmpdir),
         "max_epochs": 1,
         "accelerator": "gpu",
-        "devices": 4,
+        "devices": 2,
         "enable_progress_bar": False,
         "enable_model_summary": False,
     }
     strategy_options = {
         "model_type": "chatglm",
         "hp_config": str(os.path.join(working_dir, "configs", "galvatron_config_chatglm_2gpus_example.json")),
-        "global_train_batch_size": 8,
+        "global_train_batch_size": 4,
         "pp_deg": 1,
         "global_tp_deg": 1,
         "seq_length": 128,
@@ -182,7 +182,6 @@ def test_gpt_with_other_configurations(tmpdir):
     }
     strategy_options = {
         "model_type": "gpt",
-        "apply_strategy": False,
         "model_size": "gpt-1.5b",
         "global_train_batch_size": 8,
         "pp_deg": 2,

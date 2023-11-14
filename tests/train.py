@@ -13,20 +13,10 @@ import sys
 import torch
 from torch.utils.data import DataLoader, DistributedSampler
 
-from lightning_utilities.core.imports import module_available
-
-if module_available("lightning"):
-    from lightning.pytorch import Trainer
-    from lightning.pytorch.core.module import LightningModule
-    from lightning.pytorch.utilities.types import TRAIN_DATALOADERS
-    from lightning.pytorch.utilities.exceptions import MisconfigurationException
-elif module_available("pytorch_lightning"):
-    from pytorch_lightning import Trainer
-    from pytorch_lightning.core.module import LightningModule
-    from pytorch_lightning.utilities.types import TRAIN_DATALOADERS
-    from lightning_fabric import MisconfigurationException
-else:
-    raise ModuleNotFoundError("You are missing `lightning` or `pytorch-lightning` package, please install it.")
+from lightning.pytorch import Trainer
+from lightning.pytorch.core.module import LightningModule
+from lightning.pytorch.utilities.types import TRAIN_DATALOADERS
+from lightning.pytorch.utilities.exceptions import MisconfigurationException
 
 
 working_dir = os.path.dirname(__file__)

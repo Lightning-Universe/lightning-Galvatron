@@ -3,31 +3,18 @@ from typing import Any, Dict, List, Optional, Union
 import numpy as np
 
 import torch
-from lightning_utilities.core.imports import module_available
 from torch import Tensor
 from torch.nn import Module
 from torch.optim import Optimizer
 
-if module_available("lightning"):
-    from lightning.fabric.plugins import CheckpointIO, ClusterEnvironment
-    from lightning.fabric.utilities.seed import reset_seed
-    from lightning.pytorch import LightningModule, Trainer
-    from lightning.pytorch.accelerators import Accelerator
-    from lightning.pytorch.plugins.precision import PrecisionPlugin
-    from lightning.pytorch.strategies.ddp import DDPStrategy
-    from lightning.pytorch.trainer.states import TrainerFn
-    from lightning.pytorch.utilities.exceptions import MisconfigurationException
-elif module_available("pytorch_lightning") and module_available("lightning_fabric"):
-    from lightning_fabric.plugins import CheckpointIO, ClusterEnvironment
-    from lightning_fabric.utilities.seed import reset_seed
-    from pytorch_lightning import LightningModule, Trainer
-    from pytorch_lightning.accelerators import Accelerator
-    from pytorch_lightning.plugins.precision import PrecisionPlugin
-    from pytorch_lightning.strategies.ddp import DDPStrategy
-    from pytorch_lightning.trainer.states import TrainerFn
-    from lightning_fabric.utilities.exceptions import MisconfigurationException
-else:
-    raise ModuleNotFoundError("You are missing `lightning` or `pytorch-lightning` package, please install it.")
+from lightning.fabric.plugins import CheckpointIO, ClusterEnvironment
+from lightning.fabric.utilities.seed import reset_seed
+from lightning.pytorch import LightningModule, Trainer
+from lightning.pytorch.accelerators import Accelerator
+from lightning.pytorch.plugins.precision import PrecisionPlugin
+from lightning.pytorch.strategies.ddp import DDPStrategy
+from lightning.pytorch.trainer.states import TrainerFn
+from lightning.pytorch.utilities.exceptions import MisconfigurationException
 
 import galvatron.site_package # to import the modified megatron in galvatron lib
 from megatron.initialize import initialize_megatron
@@ -39,31 +26,78 @@ torch.backends.cuda.matmul.allow_tf32 = True
 
 
 class GalvatronStrategy(DDPStrategy):
-    """Galvatron training strategy for Pytorch Lightning."""
+    """
+    Galvatron training strategy for Pytorch Lightning.
+    
+    .. warning:: ``GalvatronStrategy`` is in beta and subject to change.
+    
+    Galvatron provides a solution to layer-wise hybrid parallel training for Transformer models. It supports
+    the mixture of 4 types of parallelisms including data parallel, sharded data parallel, tensor parallel,
+    and pipeline parallel.
+    
+    Arguments:
+        model_type: The model type that Galvatron supports for hybrid parallelism, selected from ["chatglm", "gpt"].
+            More models are coming soon.
+            (Default: "chatglm")
+        hp_config: The path of hybrid parallel config. If specified, Galvatron will use this file to configure
+            hybrid parallel strategies; otherwise, other arguments for parallelism take effect.
+            (Default: None)
+        model_size: Model size, selected from ["gpt-1.5b", "gpt-2.7b", "gpt-6.7b"] when model_type is "gpt".
+            If not spedified, Galvatron will use other arguments to determine the model hyper-parameters.
+            (Default: None)
+        global_train_batch_size: Global training batch size, taking effect when `hp_config` is None.
+            (Default: 32)
+        seq_length: Input sequence length, taking effect when `model_size` is None.
+            (Default: 128)
+        num_attention_heads: Number of attention heads, taking effect when `model_size` is None.
+            (Default: 16)
+        hidden_size: Hidden size of Transformer model, taking effect when `model_size` is None.
+            (Default: 1024)
+        num_hidden_layers: Number of hidden layers, taking effect when `model_size` is None.
+            (Default: 28)
+        pp_deg: Pipeline parallel degree, taking effect when `hp_config` is None. `num_hidden_layers` and `world_size`
+            should be divisible by it.
+            (Default: 1)
+        global_tp_deg: Global tensor parallel degree, taking effect when `hp_config` is None. `num_attention_heads`
+            should be divisible by it.
+            (Default: 1)
+        fsdp: Apply FSDP for all transformer layers, taking effect when `hp_config` is None. Selected from [0, 1].
+            (Default: 0)
+        global_checkpoint: Wrap all layers with PyTorch checkpoint wrapper, taking effect when `hp_config` is None.
+            Selected from [0, 1].
+            (Default: 0)
+        mixed_precision: Mixed precision option, selected from ["fp32", "fp16", "bf16"]
+            (Default: "bf16")
+        pipeline_type: Galvatron pipeline type, selected from ["gpipe", "pipedream_flush"]
+            (Default: "gpipe")
+        default_dp_type: Default data parallel type, selected from ["ddp", "zero2", "zero3"]
+            (Default: "zero2")
+        use_flash_attn: Use flash attention to optimise attention calculation.
+            (Default: False)
+    """
 
     strategy_name = "galvatron"
 
     def __init__(
         self,
-        model_type,
-        hp_config=None,
-        apply_strategy=False,
-        model_size=None,
-        global_train_batch_size=32,
-        seq_length=128,
-        num_attention_heads=16,
-        hidden_size=1024,
-        num_hidden_layers=28,
-        pp_deg=1,
-        global_tp_deg=1,
-        chunks=-1,
-        global_tp_consec=1,
-        fsdp=0,
-        global_checkpoint=0,
-        mixed_precision='bf16',
-        pipeline_type='gpipe',
-        default_dp_type='zero2',
-        use_flash_attn=False,
+        model_type: str = "chatglm",
+        hp_config: str = None,
+        model_size: str = None,
+        global_train_batch_size: int = 32,
+        seq_length: int = 128,
+        num_attention_heads: int = 16,
+        hidden_size: int = 1024,
+        num_hidden_layers: int = 28,
+        pp_deg: int = 1,
+        global_tp_deg: int = 1,
+        chunks: int = -1,
+        global_tp_consec: int = 1,
+        fsdp: int = 0,
+        global_checkpoint: int = 0,
+        mixed_precision: str = 'bf16',
+        pipeline_type: str = 'gpipe',
+        default_dp_type: str = 'zero2',
+        use_flash_attn: bool = False,
         accelerator: Optional[Accelerator] = None,
         parallel_devices: Optional[List[torch.device]] = None,
         cluster_environment: Optional[ClusterEnvironment] = None,
@@ -107,7 +141,6 @@ class GalvatronStrategy(DDPStrategy):
             'mixed_precision': mixed_precision,
             'pipeline_type': pipeline_type,
             'default_dp_type': default_dp_type,
-            'apply_strategy': apply_strategy,
             'galvatron_config_path': hp_config,
             'gradient_accumulation_fusion': False,
             'async_tensor_model_parallel_allreduce': False,
@@ -143,19 +176,21 @@ class GalvatronStrategy(DDPStrategy):
         trainer_fn = trainer.state.fn
 
         if trainer_fn == TrainerFn.FITTING:
+            # Galvatron: do distributed environment initialization and megatron args preparation
             self._args, _ = initialize_megatron(args_defaults=self._args_defaults, ignore_unknown_args=True)
             self._args = get_args()
             
+            # Galvatron: configure the model, make it ready for pipeline parallel, tensor parallel and (sharded) data parallel
             self._configure_galvatron_model(self._args)
 
             self.setup_optimizers(trainer)
 
-    def _configure_galvatron_model(self, args) -> None:
+    def _configure_galvatron_model(self, args: Any) -> None:
         assert self.model.model is not None
         model = self.model.model
         self.model.model = self._setup_model(model, args)
     
-    def _setup_model(self, model: Module, args) -> PipelineParallel:
+    def _setup_model(self, model: Module, args: Any) -> PipelineParallel:
         if self._model_type == 'gpt':
             from galvatron.gpt.hybrid_parallel_model_dist import overwrite_megatron_args, get_hybrid_parallel_configs, construct_hybrid_parallel_model
         elif self._model_type == 'chatglm':
@@ -163,6 +198,7 @@ class GalvatronStrategy(DDPStrategy):
         else:
             raise MisconfigurationException
         
+        # Galvatron: overwrite model configs and megatron args, contruct the hybrid parallel form of the model
         config = model.config
         overwrite_megatron_args(config, args)
         hybrid_parallel_configs = get_hybrid_parallel_configs(args)
@@ -180,6 +216,7 @@ class GalvatronStrategy(DDPStrategy):
 
         batch, batch_idx = args
         
+        # Galvatron: prepare the batched inputs
         if self._model_type == 'gpt':
             from galvatron.gpt.train_hp_layerwise_dist import forward_step_func
             input_ids = batch
@@ -191,6 +228,7 @@ class GalvatronStrategy(DDPStrategy):
         else:
             raise MisconfigurationException
         
+        # Galvatron: do pipeline parallel
         if self._args.pipeline_type == 'gpipe':
             loss = model.gpipe_forward(forward_step_func, batch)
             model.gpipe_backward()
