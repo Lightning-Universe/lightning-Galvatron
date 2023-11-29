@@ -35,6 +35,7 @@ Please see the official [Galvatron repository](https://github.com/Hsword/Hetu/tr
 ## Cite
 
 If you use Galvatron in a scientific publication, we would appreciate citations to the following paper:
+
 ```
 @article{miao2023galvatron,
   title = {Galvatron: Efficient Transformer Training over Multiple GPUs Using Automatic Parallelism},

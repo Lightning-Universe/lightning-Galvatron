@@ -1,7 +1,7 @@
 import logging
 import os
-import torch
 
+import torch
 from lightning.fabric.plugins import ClusterEnvironment
 
 log = logging.getLogger(__name__)
