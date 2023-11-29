@@ -178,7 +178,8 @@ class GalvatronStrategy(DDPStrategy):
             self._args, _ = initialize_megatron(args_defaults=self._args_defaults, ignore_unknown_args=True)
             self._args = get_args()
 
-            # Galvatron: configure the model, make it ready for pipeline parallel, tensor parallel and (sharded) data parallel
+            # Galvatron: configure the model, make it ready for pipeline parallel,
+            # tensor parallel and (sharded) data parallel
             self._configure_galvatron_model(self._args)
 
             self.setup_optimizers(trainer)
@@ -242,7 +243,7 @@ class GalvatronStrategy(DDPStrategy):
         else:
             raise MisconfigurationException
 
-        avg_loss = torch.tensor(np.mean([l.item() for l in loss])) if len(loss) else torch.tensor(0)
+        avg_loss = torch.tensor(np.mean([l_.item() for l_ in loss])) if len(loss) else torch.tensor(0)
         return {"loss": avg_loss, "loss_reduced": loss}
 
     # backward is included in training_step in Galvatron strategy

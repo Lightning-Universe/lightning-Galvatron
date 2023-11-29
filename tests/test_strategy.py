@@ -3,13 +3,14 @@ import os
 import pytest
 import torch
 
-working_dir = os.path.dirname(__file__)
 from tests.helper import _run_galvatron
 
 try:
     import flash_attn
-except:
+except ImportError:
     flash_attn = None
+
+_PATH_HERE = os.path.dirname(__file__)
 
 
 @pytest.mark.skipif(torch.cuda.device_count() < 2, reason="This test needs at least 2 GPUs.")
@@ -24,7 +25,7 @@ def test_chatglm_with_json_config(tmpdir):
     }
     strategy_options = {
         "model_type": "chatglm",
-        "hp_config": str(os.path.join(working_dir, "configs", "galvatron_config_chatglm_2gpus_example.json")),
+        "hp_config": str(os.path.join(_PATH_HERE, "configs", "galvatron_config_chatglm_2gpus_example.json")),
         "global_train_batch_size": 4,
         "pp_deg": 1,
         "global_tp_deg": 1,

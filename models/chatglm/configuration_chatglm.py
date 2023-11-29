@@ -7,19 +7,18 @@ logger = logging.get_logger(__name__)
 
 
 class ChatGLMConfig(PretrainedConfig):
-    r"""This is the configuration class to store the configuration of a [`~ChatGLMModel`].
-    It is used to instantiate an ChatGLM model according to the specified arguments, defining the model
-    architecture. Instantiating a configuration with the defaults will yield a similar configuration to that of
-    the ChatGLM-6B [THUDM/ChatGLM-6B](https://huggingface.co/THUDM/chatglm-6b) architecture.
-    Configuration objects inherit from  [`PretrainedConfig`] and can be used
-    to control the model outputs. Read the documentation from  [`PretrainedConfig`]
+    r"""This is the configuration class to store the configuration of a [`~ChatGLMModel`]. It is used to instantiate an
+    ChatGLM model according to the specified arguments, defining the model architecture. Instantiating a configuration
+    with the defaults will yield a similar configuration to that of the ChatGLM-6B.
+
+    [THUDM/ChatGLM-6B](https://huggingface.co/THUDM/chatglm-6b) architecture. Configuration objects inherit from
+    [`PretrainedConfig`] and can be used to control the model outputs. Read the documentation from  [`PretrainedConfig`]
     for more information.
 
     Args:
         vocab_size (`int`, *optional*, defaults to 150528):
-            Vocabulary size of the ChatGLM-6B model. Defines the number of different tokens that can be represented by the
-            `inputs_ids` passed when calling [`~ChatGLMModel`] or
-            [`~TFChatGLMModel`].
+            Vocabulary size of the ChatGLM-6B model. Defines the number of different tokens that can be represented
+            by the `inputs_ids` passed when calling [`~ChatGLMModel`] or [`~TFChatGLMModel`].
         hidden_size (`int`, *optional*, defaults to 4096):
             Dimension of the encoder layers and the pooler layer.
         num_hidden_layers (`int`, *optional*, defaults to 28):

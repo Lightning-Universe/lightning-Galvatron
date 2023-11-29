@@ -2,7 +2,7 @@
 
 import os
 
-from lightning_galvatron.__about__ import *  # noqa: F401,
+from lightning_galvatron.__about__ import *  # noqa: F401, F403
 from lightning_galvatron.environment import GalvatronEnvironment
 from lightning_galvatron.strategy import GalvatronStrategy
 

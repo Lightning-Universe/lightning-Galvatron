@@ -130,9 +130,9 @@ def load_tf_weights_in_chatglm_6b(model, config, tf_checkpoint_path):
 
 
 class PrefixEncoder(torch.nn.Module):
-    """The torch.nn model to encode the prefix Input shape: (batch-size, prefix-length) Output shape: (batch-size,
-    prefix-length, 2*layers*hidden)
-    .
+    """The torch.nn model to encode the prefix.
+
+    Input shape: (batch-size, prefix-length) Output shape: (batch-size, prefix-length, 2*layers*hidden).
     """
 
     def __init__(self, config):
@@ -442,7 +442,8 @@ class SelfAttention(torch.nn.Module):
         # [seq_len, batch, 3 * hidden_size]
         mixed_raw_layer = self.query_key_value(hidden_states)
 
-        # [seq_len, batch, 3 * hidden_size] --> [seq_len, batch, num_attention_heads, 3 * hidden_size_per_attention_head]
+        # [seq_len, batch, 3 * hidden_size]
+        #   --> [seq_len, batch, num_attention_heads, 3 * hidden_size_per_attention_head]
         new_tensor_shape = mixed_raw_layer.size()[:-1] + (
             self.num_attention_heads_per_partition,
             3 * self.hidden_size_per_attention_head,
@@ -656,9 +657,7 @@ class GLMBlock(torch.nn.Module):
 
 
 class ChatGLMPreTrainedModel(PreTrainedModel):
-    """An abstract class to handle weights initialization and a simple interface for downloading and loading pretrained
-    models.
-    """
+    """Abstraction to handle weights initialization and an interface for downloading and loading pretrained models."""
 
     is_parallelizable = False
     supports_gradient_checkpointing = True
@@ -1319,13 +1318,13 @@ class ChatGLMForConditionalGeneration(ChatGLMPreTrainedModel):
         prefix_allowed_tokens_fn: Optional[Callable[[int, torch.Tensor], List[int]]] = None,
         **kwargs,
     ):
-        batch_size, input_ids_seq_length = input_ids.shape[0], input_ids.shape[-1]
+        _, input_ids_seq_length = input_ids.shape[0], input_ids.shape[-1]
 
         if generation_config is None:
             generation_config = self.generation_config
         generation_config = copy.deepcopy(generation_config)
         model_kwargs = generation_config.update(**kwargs)
-        bos_token_id, eos_token_id = generation_config.bos_token_id, generation_config.eos_token_id
+        _, eos_token_id = generation_config.bos_token_id, generation_config.eos_token_id
 
         if isinstance(eos_token_id, int):
             eos_token_id = [eos_token_id]

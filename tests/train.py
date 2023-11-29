@@ -7,7 +7,6 @@ the state between tests using only one process.
 import argparse
 import json
 import os
-import sys
 from collections import namedtuple
 
 import torch
@@ -17,9 +16,9 @@ from lightning.pytorch.utilities.exceptions import MisconfigurationException
 from lightning.pytorch.utilities.types import TRAIN_DATALOADERS
 from torch.utils.data import DataLoader, DistributedSampler
 
-working_dir = os.path.dirname(__file__)
-sys.path.insert(0, os.path.join(working_dir, os.pardir, "src"))
 from lightning_galvatron import GalvatronStrategy
+
+_PATH_HERE = os.path.dirname(__file__)
 
 try:
     from flash_attn.models.gpt import GPTLMHeadModel
@@ -83,13 +82,13 @@ try:
             )
             return trainloader
 
-except:
+except Exception:
     gpt_config, overwrite_configs_and_args, DataLoaderForGPT, GPTLMHeadModel = None, None, None, None
     GPTModel = None
 
 
-from galvatron.chatglm.dataloader import DataLoaderForChatGLM
-from transformers import AutoConfig, AutoModel
+from galvatron.chatglm.dataloader import DataLoaderForChatGLM  # noqa: E402
+from transformers import AutoConfig, AutoModel  # noqa: E402
 
 
 class ChatGLMModel(LightningModule):
@@ -99,7 +98,7 @@ class ChatGLMModel(LightningModule):
         self.pp_deg = strategy_options["pp_deg"]
 
         self.config = AutoConfig.from_pretrained(
-            os.path.join(working_dir, os.pardir, "models", "chatglm"), trust_remote_code=True
+            os.path.join(_PATH_HERE, os.pardir, "models", "chatglm"), trust_remote_code=True
         )
         # self.config = AutoConfig.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True)
         Args = namedtuple(

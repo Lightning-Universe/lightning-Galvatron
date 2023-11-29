@@ -97,11 +97,13 @@ class SPTokenizer:
         return text
 
     def encode(self, text: str, linebreak=True, whitespaces=True, add_dummy_prefix=True) -> List[int]:
-        """@param text: Text to encode.
-        @param linebreak: Whether to encode newline (\n) in text.
-        @param whitespaces: Whether to encode multiple whitespaces or tab in text, useful for source code encoding.
-        @param special_tokens: Whether to encode special token ([MASK], [gMASK], etc.) in text.
-        @param add_dummy_prefix: Whether to add dummy blank space in the beginning.
+        r"""Encode.
+
+        Args:
+            text: Text to encode.
+            linebreak: Whether to encode newline ``\n`` in text.
+            whitespaces: Whether to encode multiple whitespaces or tab in text, useful for source code encoding.
+            add_dummy_prefix: Whether to add dummy blank space in the beginning.
         """
         text = self._preprocess(text, linebreak, whitespaces)
         if not add_dummy_prefix:
@@ -130,11 +132,13 @@ class SPTokenizer:
         return text
 
     def tokenize(self, text: str, linebreak=True, whitespaces=True, add_dummy_prefix=True) -> List[str]:
-        """@param text: Text to encode.
-        @param linebreak: Whether to encode newline (\n) in text.
-        @param whitespaces: Whether to encode multiple whitespaces or tab in text, useful for source code encoding.
-        @param special_tokens: Whether to encode special token ([MASK], [gMASK], etc.) in text.
-        @param add_dummy_prefix: Whether to add dummy blank space in the beginning.
+        r"""Tokenize.
+
+        Args:
+            text: Text to encode.
+            linebreak: Whether to encode newline ``\n`` in text.
+            whitespaces: Whether to encode multiple whitespaces or tab in text, useful for source code encoding.
+            add_dummy_prefix: Whether to add dummy blank space in the beginning.
         """
         text = self._preprocess(text, linebreak, whitespaces)
         if not add_dummy_prefix:
@@ -307,10 +311,13 @@ class ChatGLMTokenizer(PreTrainedTokenizer):
         self, token_ids_0: List[int], token_ids_1: Optional[List[int]] = None
     ) -> List[int]:
         """Build model inputs from a sequence or a pair of sequence for sequence classification tasks by concatenating
-        and adding special tokens. A BERT sequence has the following format:
+        and adding special tokens.
+
+        A BERT sequence has the following format:
 
         - single sequence: `[CLS] X [SEP]`
         - pair of sequences: `[CLS] A [SEP] B [SEP]`
+
         Args:
             token_ids_0 (`List[int]`):
                 List of IDs to which the special tokens will be added.
