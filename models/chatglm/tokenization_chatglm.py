@@ -217,8 +217,7 @@ class ChatGLMTokenizer(PreTrainedTokenizer):
         self.gmask_token = gmask_token
 
         self.sp_tokenizer = SPTokenizer(vocab_file, num_image_tokens=num_image_tokens)
-
-        """ Initialisation """
+        """Initialisation."""
 
     @property
     def gmask_token_id(self) -> Optional[int]:
@@ -228,7 +227,9 @@ class ChatGLMTokenizer(PreTrainedTokenizer):
 
     @property
     def end_token_id(self) -> Optional[int]:
-        """`Optional[int]`: Id of the end of context token in the vocabulary. Returns `None` if the token has not been
+        """`Optional[int]`: Id of the end of context token in the vocabulary.
+
+        Returns `None` if the token has not been
         set.
         """
         if self.end_token is None:

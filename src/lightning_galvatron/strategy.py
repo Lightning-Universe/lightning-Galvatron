@@ -5,13 +5,11 @@ import numpy as np
 import torch
 from galvatron.pipeline import PipelineParallel
 from lightning_utilities import module_available
-
 from megatron import get_args
 from megatron.initialize import initialize_megatron
 from torch import Tensor
 from torch.nn import Module
 from torch.optim import Optimizer
-
 
 if module_available("lightning"):
     from lightning.fabric.plugins import CheckpointIO, ClusterEnvironment

@@ -2,7 +2,6 @@ import logging
 import os
 
 import torch
-
 from lightning_utilities import module_available
 
 if module_available("lightning"):
