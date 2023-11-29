@@ -4,19 +4,35 @@ from typing import Any, Dict, List, Optional, Union
 import numpy as np
 import torch
 from galvatron.pipeline import PipelineParallel
-from lightning.fabric.plugins import CheckpointIO, ClusterEnvironment
-from lightning.fabric.utilities.seed import reset_seed
-from lightning.pytorch import Trainer
-from lightning.pytorch.accelerators import Accelerator
-from lightning.pytorch.plugins.precision import PrecisionPlugin
-from lightning.pytorch.strategies.ddp import DDPStrategy
-from lightning.pytorch.trainer.states import TrainerFn
-from lightning.pytorch.utilities.exceptions import MisconfigurationException
+from lightning_utilities import module_available
+
 from megatron import get_args
 from megatron.initialize import initialize_megatron
 from torch import Tensor
 from torch.nn import Module
 from torch.optim import Optimizer
+
+
+if module_available("lightning"):
+    from lightning.fabric.plugins import CheckpointIO, ClusterEnvironment
+    from lightning.fabric.utilities.seed import reset_seed
+    from lightning.pytorch import Trainer
+    from lightning.pytorch.accelerators import Accelerator
+    from lightning.pytorch.plugins.precision import PrecisionPlugin
+    from lightning.pytorch.strategies.ddp import DDPStrategy
+    from lightning.pytorch.trainer.states import TrainerFn
+    from lightning.pytorch.utilities.exceptions import MisconfigurationException
+elif module_available("pytorch_lightning"):
+    from lightning_fabric.plugins import CheckpointIO, ClusterEnvironment
+    from lightning_fabric.utilities.seed import reset_seed
+    from pytorch_lightning import Trainer
+    from pytorch_lightning.accelerators import Accelerator
+    from pytorch_lightning.plugins.precision import PrecisionPlugin
+    from pytorch_lightning.strategies.ddp import DDPStrategy
+    from pytorch_lightning.trainer.states import TrainerFn
+    from pytorch_lightning.utilities.exceptions import MisconfigurationException
+else:
+    raise ModuleNotFoundError("You are missing `lightning` or `pytorch-lightning` package, please install it.")
 
 torch.backends.cudnn.allow_tf32 = True
 torch.backends.cuda.matmul.allow_tf32 = True
