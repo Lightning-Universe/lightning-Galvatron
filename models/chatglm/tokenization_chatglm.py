@@ -213,7 +213,7 @@ class ChatGLMTokenizer(PreTrainedTokenizer):
         self.gmask_token = gmask_token
 
         self.sp_tokenizer = SPTokenizer(vocab_file, num_image_tokens=num_image_tokens)
-        """ Initialisation """
+        """Initialisation."""
 
     @property
     def gmask_token_id(self) -> Optional[int]:

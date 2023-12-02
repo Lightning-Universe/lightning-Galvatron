@@ -554,8 +554,7 @@ class GLU(torch.nn.Module):
         )
 
     def forward(self, hidden_states):
-        """hidden_states: [seq_len, batch, hidden_size]
-        """
+        """hidden_states: [seq_len, batch, hidden_size]"""
         # [seq_len, batch, inner_hidden_size]
         intermediate_parallel = self.dense_h_to_4h(hidden_states)
 
