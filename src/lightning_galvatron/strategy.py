@@ -1,9 +1,10 @@
 import os
 from typing import Any, Dict, List, Optional, Union
 
+# This line is intentionally kept for importing the megatron in galvatron lib
+import galvatron.site_package  # noqa: F401
 import numpy as np
 import torch
-import galvatron.site_package # This line is intentionally kept for importing the megatron in galvatron lib
 from galvatron.pipeline import PipelineParallel
 from lightning_utilities import module_available
 from megatron import get_args
