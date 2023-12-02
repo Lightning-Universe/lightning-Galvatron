@@ -1,9 +1,11 @@
 import os
+
 import pytest
 import torch
 
 working_dir = os.path.dirname(__file__)
 from tests.helper import _run_galvatron
+
 try:
     import flash_attn
 except:
@@ -35,7 +37,6 @@ def test_chatglm_with_json_config(tmpdir):
     _run_galvatron(trainer_options, strategy_options)
 
 
-
 @pytest.mark.skipif(torch.cuda.device_count() < 4, reason="This test needs at least 4 GPUs.")
 def test_chatglm_with_pipeline_parallel(tmpdir):
     trainer_options = {
@@ -58,7 +59,6 @@ def test_chatglm_with_pipeline_parallel(tmpdir):
         "pipeline_type": "pipedream_flush",
     }
     _run_galvatron(trainer_options, strategy_options)
-
 
 
 @pytest.mark.skipif(torch.cuda.device_count() < 4, reason="This test needs at least 4 GPUs.")
@@ -85,7 +85,6 @@ def test_chatglm_with_tensor_parallel(tmpdir):
     _run_galvatron(trainer_options, strategy_options)
 
 
-
 @pytest.mark.skipif(torch.cuda.device_count() < 4, reason="This test needs at least 4 GPUs.")
 @pytest.mark.skipif(flash_attn is None, reason="This test needs flash-attn.")
 def test_chatglm_with_flash_attn(tmpdir):
@@ -110,7 +109,6 @@ def test_chatglm_with_flash_attn(tmpdir):
         "use_flash_attn": True,
     }
     _run_galvatron(trainer_options, strategy_options)
-
 
 
 @pytest.mark.skipif(torch.cuda.device_count() < 4, reason="This test needs at least 4 GPUs.")
@@ -140,7 +138,6 @@ def test_gpt_with_hybrid_parallel(tmpdir):
     _run_galvatron(trainer_options, strategy_options)
 
 
-
 @pytest.mark.skipif(torch.cuda.device_count() < 4, reason="This test needs at least 4 GPUs.")
 @pytest.mark.skipif(flash_attn is None, reason="This test needs flash-attn.")
 def test_gpt_with_gpipe(tmpdir):
@@ -166,7 +163,6 @@ def test_gpt_with_gpipe(tmpdir):
         "use_flash_attn": True,
     }
     _run_galvatron(trainer_options, strategy_options)
-
 
 
 @pytest.mark.skipif(torch.cuda.device_count() < 4, reason="This test needs at least 4 GPUs.")

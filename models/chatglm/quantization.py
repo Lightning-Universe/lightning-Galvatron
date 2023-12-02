@@ -1,19 +1,17 @@
+import base64
+import bz2
+import ctypes
+from typing import List
+
+import torch
 from torch.nn import Linear
 from torch.nn.parameter import Parameter
-
-import bz2
-import torch
-import base64
-import ctypes
 from transformers.utils import logging
-
-from typing import List
-from functools import partial
 
 logger = logging.get_logger(__name__)
 
 try:
-    from cpm_kernels.kernels.base import LazyKernelCModule, KernelFunction, round_up
+    from cpm_kernels.kernels.base import KernelFunction, LazyKernelCModule, round_up
 
     class Kernel:
         def __init__(self, code: bytes, function_names: List[str]):
@@ -119,7 +117,7 @@ def extract_weight_to_half(weight: torch.Tensor, scale_list: torch.Tensor, sourc
 
 class QuantizedLinear(Linear):
     def __init__(self, weight_bit_width: int, weight_tensor=None, bias_tensor=None, empty_init=False, *args, **kwargs):
-        super(QuantizedLinear, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.weight_bit_width = weight_bit_width
 
         shape = self.weight.shape
@@ -151,8 +149,7 @@ class QuantizedLinear(Linear):
 
 
 def quantize(model, weight_bit_width, empty_init=False, **kwargs):
-    """Replace fp16 linear with quantized linear"""
-
+    """Replace fp16 linear with quantized linear."""
     for layer in model.layers:
         layer.attention.query_key_value = QuantizedLinear(
             weight_bit_width=weight_bit_width,
@@ -163,7 +160,7 @@ def quantize(model, weight_bit_width, empty_init=False, **kwargs):
             bias=True,
             dtype=torch.half,
             device=layer.attention.query_key_value.weight.device,
-            empty_init=empty_init
+            empty_init=empty_init,
         )
         layer.attention.dense = QuantizedLinear(
             weight_bit_width=weight_bit_width,
@@ -174,7 +171,7 @@ def quantize(model, weight_bit_width, empty_init=False, **kwargs):
             bias=True,
             dtype=torch.half,
             device=layer.attention.dense.weight.device,
-            empty_init=empty_init
+            empty_init=empty_init,
         )
         layer.mlp.dense_h_to_4h = QuantizedLinear(
             weight_bit_width=weight_bit_width,
@@ -185,7 +182,7 @@ def quantize(model, weight_bit_width, empty_init=False, **kwargs):
             bias=True,
             dtype=torch.half,
             device=layer.mlp.dense_h_to_4h.weight.device,
-            empty_init=empty_init
+            empty_init=empty_init,
         )
         layer.mlp.dense_4h_to_h = QuantizedLinear(
             weight_bit_width=weight_bit_width,
@@ -196,6 +193,6 @@ def quantize(model, weight_bit_width, empty_init=False, **kwargs):
             bias=True,
             dtype=torch.half,
             device=layer.mlp.dense_4h_to_h.weight.device,
-            empty_init=empty_init
+            empty_init=empty_init,
         )
     return model
