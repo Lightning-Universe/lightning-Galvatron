@@ -7,7 +7,7 @@
 [![CI testing](https://github.com/Lightning-AI/lightning-galvatron/actions/workflows/ci-testing.yml/badge.svg?event=push)](https://github.com/Lightning-AI/lightning-galvatron/actions/workflows/ci-testing.yml)
 [![General checks](https://github.com/Lightning-AI/lightning-galvatron/actions/workflows/ci-checks.yml/badge.svg?event=push)](https://github.com/Lightning-AI/lightning-galvatron/actions/workflows/ci-checks.yml)
 [![Documentation Status](https://readthedocs.org/projects/lightning-galvatron/badge/?version=latest)](https://lightning-galvatron.readthedocs.io/en/latest/?badge=latest)
-[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/Lightning-AI/lightning-galvatron/main.svg?badge_token=mqheL1-cTn-280Vx4cJUdg)](https://results.pre-commit.ci/latest/github/Lightning-AI/lightning-galvatron/main?badge_token=mqheL1-cTn-280Vx4cJUdg)
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/Lightning-Universe/lightning-Galvatron/main.svg)](https://results.pre-commit.ci/latest/github/Lightning-Universe/lightning-Galvatron/main)
 
 It incorporates multiple popular parallelism dimensions (including data parallel, sharded data parallel, tensor parallel and pipeline parallel) and automatically finds the most efficient hybrid parallelism strategy.
 
