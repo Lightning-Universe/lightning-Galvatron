@@ -721,7 +721,7 @@ CHATGLM_6B_START_DOCSTRING = r"""
     This model is a PyTorch `torch.nn.Module <https://pytorch.org/docs/stable/nn.html#torch.nn.Module>`__ sub-class.
     Use it as a regular PyTorch Module and refer to the PyTorch documentation for all matter related to general
     usage and behavior.
-    
+
     Parameters:
         config (``ChatGLM6BConfig``): Model configuration class with all the parameters of the model.
             Initializing with a config file does not load the weights associated with the model, only the configuration.
@@ -737,12 +737,12 @@ CHATGLM_6B_INPUTS_DOCSTRING = r"""
             ``PreTrainedTokenizer.__call__`` for details.
         attention_mask (``torch.FloatTensor`` of shape ``({0})``, *optional*):
             Mask to avoid performing attention on padding token indices. Mask values selected in ``[0, 1]``:
-            
+
             - 1 for tokens that are **not masked**,
             - 0 for tokens that are **masked**.
         token_type_ids (``torch.LongTensor`` of shape ``({0})``, *optional*):
             Segment token indices to indicate first and second portions of the inputs. Indices are selected in ``[0, 1]``:
-            
+
             - 0 corresponds to a *sentence A* token,
             - 1 corresponds to a *sentence B* token.
         position_ids (``torch.LongTensor`` of shape ``({0})``, *optional*):
@@ -750,7 +750,7 @@ CHATGLM_6B_INPUTS_DOCSTRING = r"""
             Selected in the range ``[0, config.max_position_embeddings - 1]``.
         head_mask (``torch.FloatTensor`` of shape ``(num_heads,)`` or ``(num_layers, num_heads)``, *optional*):
             Mask to nullify selected heads of the self-attention modules. Mask values selected in ``[0, 1]``:
-            
+
             - 1 indicates the head is **not masked**,
             - 0 indicates the head is **masked**.
         inputs_embeds (``torch.FloatTensor`` of shape ``({0}, hidden_size)``, *optional*):
@@ -1195,7 +1195,9 @@ class ChatGLMForConditionalGeneration(ChatGLMPreTrainedModel):
         past: Tuple[Tuple[torch.Tensor, torch.Tensor], ...], beam_idx: torch.LongTensor
     ) -> Tuple[Tuple[torch.Tensor, torch.Tensor], ...]:
         """This function is used to re-order the ``past_key_values`` cache if ``PreTrainedModel.beam_search`` or
-        ``PreTrainedModel.beam_sample`` is called. This is required to match ``past_key_values`` with the correct
+        ``PreTrainedModel.beam_sample`` is called.
+
+        This is required to match ``past_key_values`` with the correct
         beam_idx at every generation step. Output shares the same memory storage as ``past``.
         """
         return tuple(

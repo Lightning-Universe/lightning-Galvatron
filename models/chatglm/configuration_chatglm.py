@@ -36,9 +36,8 @@ class ChatGLMConfig(PretrainedConfig):
             Whether the model should return the last key/values attentions (not used by all models).
 
     Example:
-
     .. code-block:: python
-    
+
         >>> from configuration_chatglm import ChatGLMConfig
         >>> from modeling_chatglm import ChatGLMModel
         >>> # Initializing a ChatGLM-6B THUDM/ChatGLM-6B style configuration
