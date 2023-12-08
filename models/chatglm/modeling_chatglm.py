@@ -741,8 +741,8 @@ CHATGLM_6B_INPUTS_DOCSTRING = r"""
             - 1 for tokens that are **not masked**,
             - 0 for tokens that are **masked**.
         token_type_ids (``torch.LongTensor`` of shape ``({0})``, *optional*):
-            Segment token indices to indicate first and second portions of the inputs. Indices are selected in ``[0, 1]``:
-
+            Segment token indices to indicate first and second inputs portions. Indices are selected in ``[0, 1]``:
+            
             - 0 corresponds to a *sentence A* token,
             - 1 corresponds to a *sentence B* token.
         position_ids (``torch.LongTensor`` of shape ``({0})``, *optional*):
@@ -775,13 +775,13 @@ CHATGLM_6B_INPUTS_DOCSTRING = r"""
 class ChatGLMModel(ChatGLMPreTrainedModel):
     """The model can behave as an encoder (with only self-attention) as well as a decoder, in which case a layer of
     cross-attention is added between the self-attention layers, following the architecture described in `Attention is
-    all you need <https://arxiv.org/abs/1706.03762>`__ by Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion
-    Jones, Aidan N.
+    all you need <https://arxiv.org/abs/1706.03762>`__ by Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, 
+    Llion Jones, Aidan N.
 
     Gomez, Lukasz Kaiser and Illia Polosukhin. To behave as an decoder the model needs to be initialized with the
     ``is_decoder`` argument of the configuration set to `True`. To be used in a Seq2Seq model, the model needs to
-    initialized with both ``is_decoder`` argument and ``add_cross_attention`` set to ``True``; an ``encoder_hidden_states`` is
-    then expected as an input to the forward pass.
+    initialized with both ``is_decoder`` argument and ``add_cross_attention`` set to ``True``; 
+    an ``encoder_hidden_states`` is then expected as an input to the forward pass.
     """
 
     def __init__(self, config: ChatGLMConfig, empty_init=True):
