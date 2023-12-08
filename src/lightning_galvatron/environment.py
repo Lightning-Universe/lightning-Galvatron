@@ -15,7 +15,7 @@ log = logging.getLogger(__name__)
 
 
 class GalvatronEnvironment(ClusterEnvironment):
-    """Environment for distributed training with `Galvatron`."""
+    """Environment for distributed training with Galvatron."""
 
     @property
     def creates_processes_externally(self) -> bool:

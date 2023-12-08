@@ -48,42 +48,42 @@ class GalvatronStrategy(DDPStrategy):
     and pipeline parallel.
 
     Arguments:
-        model_type: The model type that Galvatron supports for hybrid parallelism, selected from ["chatglm", "gpt"].
+        model_type: The model type that Galvatron supports for hybrid parallelism, selected from [``chatglm``, ``gpt``].
             More models are coming soon.
-            (Default: "chatglm")
+            (Default: ``chatglm``)
         hp_config: The path of hybrid parallel config. If specified, Galvatron will use this file to configure
             hybrid parallel strategies; otherwise, other arguments for parallelism take effect.
             (Default: None)
-        model_size: Model size, selected from ["gpt-1.5b", "gpt-2.7b", "gpt-6.7b"] when model_type is "gpt".
+        model_size: Model size, selected from [``gpt-1.5b``, ``gpt-2.7b``, ``gpt-6.7b``] when model_type is ``gpt``.
             If not spedified, Galvatron will use other arguments to determine the model hyper-parameters.
             (Default: None)
-        global_train_batch_size: Global training batch size, taking effect when `hp_config` is None.
+        global_train_batch_size: Global training batch size, taking effect when hp_config is ``None``.
             (Default: 32)
-        seq_length: Input sequence length, taking effect when `model_size` is None.
+        seq_length: Input sequence length, taking effect when model_size is ``None``.
             (Default: 128)
-        num_attention_heads: Number of attention heads, taking effect when `model_size` is None.
+        num_attention_heads: Number of attention heads, taking effect when model_size is ``None``.
             (Default: 16)
-        hidden_size: Hidden size of Transformer model, taking effect when `model_size` is None.
+        hidden_size: Hidden size of Transformer model, taking effect when model_size is ``None``.
             (Default: 1024)
-        num_hidden_layers: Number of hidden layers, taking effect when `model_size` is None.
+        num_hidden_layers: Number of hidden layers, taking effect when model_size is ``None``.
             (Default: 28)
-        pp_deg: Pipeline parallel degree, taking effect when `hp_config` is None. `num_hidden_layers` and `world_size`
+        pp_deg: Pipeline parallel degree, taking effect when hp_config is ``None``. num_hidden_layers and world_size
             should be divisible by it.
             (Default: 1)
-        global_tp_deg: Global tensor parallel degree, taking effect when `hp_config` is None. `num_attention_heads`
+        global_tp_deg: Global tensor parallel degree, taking effect when hp_config is ``None``. num_attention_heads
             should be divisible by it.
             (Default: 1)
-        fsdp: Apply FSDP for all transformer layers, taking effect when `hp_config` is None. Selected from [0, 1].
+        fsdp: Apply FSDP for all transformer layers, taking effect when hp_config is ``None``. Selected from [0, 1].
             (Default: 0)
-        global_checkpoint: Wrap all layers with PyTorch checkpoint wrapper, taking effect when `hp_config` is None.
+        global_checkpoint: Wrap all layers with PyTorch checkpoint wrapper, taking effect when hp_config is ``None``.
             Selected from [0, 1].
             (Default: 0)
-        mixed_precision: Mixed precision option, selected from ["fp32", "fp16", "bf16"]
-            (Default: "bf16")
-        pipeline_type: Galvatron pipeline type, selected from ["gpipe", "pipedream_flush"]
-            (Default: "gpipe")
-        default_dp_type: Default data parallel type, selected from ["ddp", "zero2", "zero3"]
-            (Default: "zero2")
+        mixed_precision: Mixed precision option, selected from [``fp32``, ``fp16``, ``bf16``]
+            (Default: ``bf16``)
+        pipeline_type: Galvatron pipeline type, selected from [``gpipe``, ``pipedream_flush``]
+            (Default: ``gpipe``)
+        default_dp_type: Default data parallel type, selected from [``ddp``, ``zero2``, ``zero3``]
+            (Default: ``zero2``)
         use_flash_attn: Use flash attention to optimise attention calculation.
             (Default: False)
     """

@@ -7,46 +7,46 @@ logger = logging.get_logger(__name__)
 
 
 class ChatGLMConfig(PretrainedConfig):
-    r"""This is the configuration class to store the configuration of a [`~ChatGLMModel`]. It is used to instantiate an
+    r"""This is the configuration class to store the configuration of a ``ChatGLMModel``. It is used to instantiate an
     ChatGLM model according to the specified arguments, defining the model architecture. Instantiating a configuration
     with the defaults will yield a similar configuration to that of the ChatGLM-6B.
 
-    [THUDM/ChatGLM-6B](https://huggingface.co/THUDM/chatglm-6b) architecture. Configuration objects inherit from
-    [`PretrainedConfig`] and can be used to control the model outputs. Read the documentation from  [`PretrainedConfig`]
+    `THUDM/ChatGLM-6B <https://huggingface.co/THUDM/chatglm-6b>`__ architecture. Configuration objects inherit from
+    ``PretrainedConfig`` and can be used to control the model outputs. Read the documentation from ``PretrainedConfig``
     for more information.
 
-    Args:
-        vocab_size (`int`, *optional*, defaults to 150528):
+    Arguments:
+        vocab_size (``int``, *optional*, defaults to 150528):
             Vocabulary size of the ChatGLM-6B model. Defines the number of different tokens that can be represented
-            by the `inputs_ids` passed when calling [`~ChatGLMModel`] or [`~TFChatGLMModel`].
-        hidden_size (`int`, *optional*, defaults to 4096):
+            by the ·`inputs_ids·` passed when calling ``ChatGLMModel`` or ``TFChatGLMModel``.
+        hidden_size (``int``, *optional*, defaults to 4096):
             Dimension of the encoder layers and the pooler layer.
-        num_hidden_layers (`int`, *optional*, defaults to 28):
+        num_hidden_layers (``int``, *optional*, defaults to 28):
             Number of hidden layers in the Transformer encoder.
-        num_attention_heads (`int`, *optional*, defaults to 32):
+        num_attention_heads (``int``, *optional*, defaults to 32):
             Number of attention heads for each attention layer in the Transformer encoder.
-        inner_hidden_size (`int`, *optional*, defaults to 16384):
+        inner_hidden_size (``int``, *optional*, defaults to 16384):
             Dimension of the "intermediate" (i.e., feed-forward) layer in the Transformer encoder.
-        max_sequence_length (`int`, *optional*, defaults to 512):
+        max_sequence_length (``int``, *optional*, defaults to 512):
             The maximum sequence length that this model might ever be used with.
             Typically set this to something large just in case (e.g., 512 or 1024 or 2048).
-        layernorm_epsilon (`float`, *optional*, defaults to 1e-5):
+        layernorm_epsilon (``float``, *optional*, defaults to 1e-5):
             The epsilon used by the layer normalization layers.
-        use_cache (`bool`, *optional*, defaults to `True`):
+        use_cache (``bool``, *optional*, defaults to ``True``):
             Whether the model should return the last key/values attentions (not used by all models).
 
     Example:
-    ```python
-    >>> from configuration_chatglm import ChatGLMConfig
-    >>> from modeling_chatglm import ChatGLMModel
-    >>> # Initializing a ChatGLM-6B THUDM/ChatGLM-6B style configuration
-    >>> configuration = ChatGLMConfig()
-    >>> # Initializing a model from the THUDM/ChatGLM-6B style configuration
-    >>> model = ChatGLMModel(configuration)
-    >>> # Accessing the model configuration
-    >>> configuration = model.config
-    ```
-    .
+
+    .. code-block:: python
+    
+        >>> from configuration_chatglm import ChatGLMConfig
+        >>> from modeling_chatglm import ChatGLMModel
+        >>> # Initializing a ChatGLM-6B THUDM/ChatGLM-6B style configuration
+        >>> configuration = ChatGLMConfig()
+        >>> # Initializing a model from the THUDM/ChatGLM-6B style configuration
+        >>> model = ChatGLMModel(configuration)
+        >>> # Accessing the model configuration
+        >>> configuration = model.config
     """
     model_type = "chatglm"
 

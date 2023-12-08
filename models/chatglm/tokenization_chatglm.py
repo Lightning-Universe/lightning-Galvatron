@@ -99,11 +99,15 @@ class SPTokenizer:
     def encode(self, text: str, linebreak=True, whitespaces=True, add_dummy_prefix=True) -> List[int]:
         r"""Encode.
 
-        Args:
-            text: Text to encode.
-            linebreak: Whether to encode newline ``\n`` in text.
-            whitespaces: Whether to encode multiple whitespaces or tab in text, useful for source code encoding.
-            add_dummy_prefix: Whether to add dummy blank space in the beginning.
+        Arguments:
+            text:
+                Text to encode.
+            linebreak:
+                Whether to encode newline ``\n`` in text.
+            whitespaces:
+                Whether to encode multiple whitespaces or tab in text, useful for source code encoding.
+            add_dummy_prefix:
+                Whether to add dummy blank space in the beginning.
         """
         text = self._preprocess(text, linebreak, whitespaces)
         if not add_dummy_prefix:
@@ -134,11 +138,15 @@ class SPTokenizer:
     def tokenize(self, text: str, linebreak=True, whitespaces=True, add_dummy_prefix=True) -> List[str]:
         r"""Tokenize.
 
-        Args:
-            text: Text to encode.
-            linebreak: Whether to encode newline ``\n`` in text.
-            whitespaces: Whether to encode multiple whitespaces or tab in text, useful for source code encoding.
-            add_dummy_prefix: Whether to add dummy blank space in the beginning.
+        Arguments:
+            text:
+                Text to encode.
+            linebreak:
+                Whether to encode newline ``\n`` in text.
+            whitespaces:
+                Whether to encode multiple whitespaces or tab in text, useful for source code encoding.
+            add_dummy_prefix:
+                Whether to add dummy blank space in the beginning.
         """
         text = self._preprocess(text, linebreak, whitespaces)
         if not add_dummy_prefix:
@@ -166,8 +174,8 @@ class ChatGLMTokenizer(PreTrainedTokenizer):
 
     Based on byte-level Byte-Pair-Encoding.
 
-    Args:
-        vocab_file (`str`):
+    Arguments:
+        vocab_file (``str``):
             Path to the vocabulary file.
     """
 
@@ -227,9 +235,9 @@ class ChatGLMTokenizer(PreTrainedTokenizer):
 
     @property
     def end_token_id(self) -> Optional[int]:
-        """`Optional[int]`: Id of the end of context token in the vocabulary.
+        """``Optional[int]``: Id of the end of context token in the vocabulary.
 
-        Returns `None` if the token has not been
+        Returns ``None`` if the token has not been
         set.
         """
         if self.end_token is None:
@@ -286,14 +294,14 @@ class ChatGLMTokenizer(PreTrainedTokenizer):
     def save_vocabulary(self, save_directory, filename_prefix=None):
         """Save the vocabulary and special tokens file to a directory.
 
-        Args:
-            save_directory (`str`):
+        Arguments:
+            save_directory (``str``):
                 The directory in which to save the vocabulary.
-            filename_prefix (`str`, *optional*):
+            filename_prefix (``str``, *optional*):
                 An optional prefix to add to the named of the saved files.
 
         Returns:
-            `Tuple(str)`: Paths to the files saved.
+            ``Tuple(str)``: Paths to the files saved.
         """
         if os.path.isdir(save_directory):
             vocab_file = os.path.join(save_directory, self.vocab_files_names["vocab_file"])
@@ -316,17 +324,17 @@ class ChatGLMTokenizer(PreTrainedTokenizer):
 
         A BERT sequence has the following format:
 
-        - single sequence: `[CLS] X [SEP]`
-        - pair of sequences: `[CLS] A [SEP] B [SEP]`
+        - single sequence: ``[CLS] X [SEP]``
+        - pair of sequences: ``[CLS] A [SEP] B [SEP]``
 
-        Args:
-            token_ids_0 (`List[int]`):
+        Arguments:
+            token_ids_0 (``List[int]``):
                 List of IDs to which the special tokens will be added.
-            token_ids_1 (`List[int]`, *optional*):
+            token_ids_1 (``List[int]``, *optional*):
                 Optional second list of IDs for sequence pairs.
 
         Returns:
-            `List[int]`: List of [input IDs](../glossary#input-ids) with the appropriate special tokens.
+            ``List[int]``: List of input IDs with the appropriate special tokens.
         """
         gmask_id = self.sp_tokenizer[self.gmask_token]
         eos_id = self.sp_tokenizer[self.eos_token]
@@ -345,23 +353,28 @@ class ChatGLMTokenizer(PreTrainedTokenizer):
     ) -> dict:
         """Pad encoded inputs (on left/right and up to predefined length or max length in the batch).
 
-        Args:
+        Arguments:
             encoded_inputs:
-                Dictionary of tokenized inputs (`List[int]`) or batch of tokenized inputs (`List[List[int]]`).
-            max_length: maximum length of the returned list and optionally padding length (see below).
+                Dictionary of tokenized inputs (``List[int]``) or batch of tokenized inputs (``List[List[int]]``).
+            max_length:
+                Maximum length of the returned list and optionally padding length (see below).
                 Will truncate by taking into account the special tokens.
-            padding_strategy: PaddingStrategy to use for padding.
+            padding_strategy:
+                PaddingStrategy to use for padding.
+                
                 - PaddingStrategy.LONGEST Pad to the longest sequence in the batch
                 - PaddingStrategy.MAX_LENGTH: Pad to the max length (default)
                 - PaddingStrategy.DO_NOT_PAD: Do not pad
+
                 The tokenizer padding sides are defined in self.padding_side:
-                    - 'left': pads on the left of the sequences
-                    - 'right': pads on the right of the sequences
-            pad_to_multiple_of: (optional) Integer if set will pad the sequence to a multiple of the provided value.
+                    - ``left``: pads on the left of the sequences
+                    - ``right``: pads on the right of the sequences
+            pad_to_multiple_of:
+                (optional) Integer if set will pad the sequence to a multiple of the provided value.
                 This is especially useful to enable the use of Tensor Core on NVIDIA hardware with compute capability
-                `>= 7.5` (Volta).
+                ``>= 7.5`` (Volta).
             return_attention_mask:
-                (optional) Set to False to avoid returning attention mask (default: set to model specifics).
+                (optional) Set to ``False`` to avoid returning attention mask (default: set to model specifics).
         """
         # Load from model defaults
         bos_token_id = self.sp_tokenizer[self.bos_token]
