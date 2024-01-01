@@ -30,7 +30,7 @@ trainer = Trainer(
 )
 ```
 
-Please see the official [Galvatron repository](https://github.com/Hsword/Hetu/tree/main/tools/Hetu-Galvatron) for more model support and advanced features.
+Please see the official [Galvatron repository](https://github.com/Hsword/Hetu/tree/main/tools/Galvatron) for more model support and advanced features.
 
 ## Cite
 
