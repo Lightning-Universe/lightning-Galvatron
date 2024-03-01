@@ -2,5 +2,5 @@ starlette ==0.37.1
 anyio ==4.3.0
 lightning >=2.1.0
 six >=1.15.0
-hetu-galvatron ==0.0.2
+hetu-galvatron ==1.0.0
 torch >=2.0.0, <2.2.0  # fix FSDP compatibility
